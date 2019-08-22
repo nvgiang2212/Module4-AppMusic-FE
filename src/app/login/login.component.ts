@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthenticationService} from '../services/authentication.service';
@@ -16,6 +16,7 @@ export class LoginComponent implements OnInit {
   submitted: boolean;
   returnUrl: string;
   error: string;
+  success: string;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -37,13 +38,24 @@ export class LoginComponent implements OnInit {
 
     // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
+
+    // show success message on registration
+    if (this.route.snapshot.queryParams['registered']) {
+      this.success = 'Registration successful';
+    }
   }
 
   // convenience getter for easy access to form fields
-  get f() { return this.loginForm.controls; }
+  get f() {
+    return this.loginForm.controls;
+  }
 
   onSubmit() {
     this.submitted = true;
+
+    // reset alerts on submit
+    this.error = null;
+    this.success = null;
 
     // stop here if form is invalid
     if (this.loginForm.invalid) {
