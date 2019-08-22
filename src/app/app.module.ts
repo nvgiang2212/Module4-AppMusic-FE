@@ -7,6 +7,7 @@ import { AlertComponent } from './alert/alert.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import {fakeBackendProvider} from './helpers/fake-backend';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,9 @@ import { RegisterComponent } from './register/register.component';
     BrowserModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [
+    fakeBackendProvider
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
