@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthenticationService} from '../services/authentication.service';
 import {first} from 'rxjs/operators';
+import {AlertService} from '../services/alert.service';
 
 @Component({
   selector: 'app-login',
@@ -15,14 +16,13 @@ export class LoginComponent implements OnInit {
   loading: boolean;
   submitted: boolean;
   returnUrl: string;
-  error: string;
-  success: string;
 
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private alertService: AlertService
   ) {
     // redirect to home if already logged in
     if (this.authenticationService.currentUserValue) {
@@ -38,11 +38,6 @@ export class LoginComponent implements OnInit {
 
     // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
-
-    // show success message on registration
-    if (this.route.snapshot.queryParams['registered']) {
-      this.success = 'Registration successful';
-    }
   }
 
   // convenience getter for easy access to form fields
@@ -54,8 +49,7 @@ export class LoginComponent implements OnInit {
     this.submitted = true;
 
     // reset alerts on submit
-    this.error = null;
-    this.success = null;
+    this.alertService.clear();
 
     // stop here if form is invalid
     if (this.loginForm.invalid) {
@@ -70,7 +64,7 @@ export class LoginComponent implements OnInit {
           this.router.navigate([this.returnUrl]);
         },
         error => {
-          this.error = error;
+          this.alertService.error(error);
           this.loading = false;
         });
   }
