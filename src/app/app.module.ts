@@ -9,7 +9,9 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import {fakeBackendProvider} from './helpers/fake-backend';
 import {ReactiveFormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {ErrorInterceptor} from './helpers/error.interceptor';
+import {JwtInterceptor} from './helpers/jwt.interceptor';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,8 @@ import {HttpClientModule} from '@angular/common/http';
     HttpClientModule
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     fakeBackendProvider
   ],
   bootstrap: [AppComponent]
