@@ -1,9 +1,21 @@
-<h1>Hi {{currentUser.firstName}}!</h1>
-<p>You're logged in with Angular 7!!</p>
+<h1>Hi {{currentUser.firstName}} {{currentUser.lastName}}!</h1>
+<p>You're logged in with Angular 8!!</p>
 <h3>All registered users:</h3>
-<ul>
-  <li *ngFor="let user of users">
-    {{user.username}} ({{user.firstName}} {{user.lastName}})
-    - <button><a (click)="deleteUser(user.id)" class="text-danger">Delete</a></button>
-  </li>
-</ul>
+<table cellpadding="12">
+  <tr>
+    <th>UserName</th>
+    <th>FirstName</th>
+    <th>LastName</th>
+    <th>Features</th>
+  </tr>
+  <tr *ngFor="let user of users">
+    <td>{{user.username}}</td>
+    <td>{{user.firstName}}</td>
+    <td>{{user.lastName}}</td>
+    <td>
+      <div class="btn-outline-danger">
+        <a (click)="deleteUser(user.id)" class="text-danger">Delete</a>
+      </div>
+    </td>
+  </tr>
+</table>
